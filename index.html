@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Séptima Pacha Co. | Arte Multidisciplinario</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --tierra: #8B4513;
+            --fuego: #FF6B35;
+            --aire: #4A90E2;
+            --agua: #2ECC71;
+            --oro: #F39C12;
+            --sombra: #2C3E50;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: #fff;
+        }
+
+        /* Splash Screen con Logo Animado */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(20px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 1s ease;
+        }
+
+        .splash-screen.hide {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .logo-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+        }
+
+        .logo-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .logo-path {
+            fill: none;
+            stroke: var(--oro);
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+        }
+
+        .logo-text {
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--oro);
+            opacity: 0;
+            text-align: center;
+        }
+
+        /* Botón de idioma */
+        .language-toggle {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 9999;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            color: var(--oro);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .language-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        /* Cursor personalizado */
+        body {
+            cursor: none;
+        }
+
+        .custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: var(--oro);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.2s ease;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-trail {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: var(--oro);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.6;
+        }
+
+        /* Sección 1: El Umbral de la Pacha */
+        .umbral {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background: radial-gradient(ellipse at center, #2d2d2d 0%, #1a1a1a 100%);
+            overflow: hidden;
+        }
+
+        .umbral::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, var(--tierra) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, var(--aire) 0%, transparent 50%);
+            opacity: 0.1;
+            animation: ambient 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes ambient {
+            0% { transform: scale(1) rotate(0deg); }
+            100% { transform: scale(1.1) rotate(2deg); }
+        }
+
+        .titulo-principal {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 8vw, 6rem);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--oro), var(--fuego), var(--aire));
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 4s ease-in-out infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .subtitulo {
+            font-size: clamp(0.9rem, 3vw, 1.5rem);
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 3rem;
+            opacity: 0.8;
+            max-width: 90%;
+        }
+
+        .scroll-arrow {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+            color: var(--oro);
+            animation: bounce 2s infinite;
+            cursor: pointer;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* Sección 2: Camino de Creaciones */
+        .proyectos {
+            min-height: 100vh;
+            padding: 4rem 1rem;
+            background: linear-gradient(180deg, #1a1a1a 0%, #2d2d2d 100%);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 6vw, 4rem);
+            text-align: center;
+            margin-bottom: 4rem;
+            color: var(--oro);
+        }
+
+        .timeline {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            padding: 0 1rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--oro), var(--fuego), var(--aire));
+            transform: translateX(-50%);
+        }
+
+        .proyecto {
+            margin-bottom: 4rem;
+            position: relative;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .proyecto:nth-child(odd) .proyecto-content {
+            margin-left: 0;
+            margin-right: 55%;
+            text-align: right;
+        }
+
+        .proyecto:nth-child(even) .proyecto-content {
+            margin-left: 55%;
+            margin-right: 0;
+        }
+
+        .proyecto-content {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .proyecto-content:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .proyecto-icono {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: var(--oro);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #1a1a1a;
+            z-index: 2;
+        }
+
+        .proyecto h3 {
+            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+            margin-bottom: 1rem;
+        }
+
+        .proyecto p {
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .proyecto-link {
+            margin-top: 1rem;
+        }
+
+        .proyecto-link a {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(45deg, var(--oro), var(--fuego));
+            color: #fff;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .proyecto-link a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .proyecto-link a:hover::before {
+            left: 100%;
+        }
+
+        .proyecto-link a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(243, 156, 18, 0.4);
+            scale: 1.05;
+        }
+
+        /* Sección 3: Las 4 Fases del Arte */
+        .fases {
+            min-height: 100vh;
+            padding: 4rem 1rem;
+            background: radial-gradient(ellipse at center, #2d2d2d 0%, #1a1a1a 100%);
+        }
+
+        .chakana-grid {
+            max-width: 800px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .fase {
+            aspect-ratio: 1;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .fase::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .fase.raiz::before { background: linear-gradient(135deg, var(--tierra), transparent); }
+        .fase.codigo::before { background: linear-gradient(135deg, var(--aire), transparent); }
+        .fase.fuego::before { background: linear-gradient(135deg, var(--fuego), transparent); }
+        .fase.aire::before { background: linear-gradient(135deg, var(--agua), transparent); }
+
+        .fase:hover::before {
+            opacity: 0.2;
+        }
+
+        .fase:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .fase-icono {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 1rem;
+        }
+
+        .fase-titulo {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            margin-bottom: 1rem;
+            color: var(--oro);
+        }
+
+        .fase p {
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+            line-height: 1.4;
+        }
+
+        /* Sección 4: Servicios */
+        .servicios {
+            min-height: 100vh;
+            padding: 4rem 1rem;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        }
+
+        .servicios-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .servicio {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .servicio::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, var(--oro), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            animation: rotate 4s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .servicio:hover::before {
+            opacity: 0.1;
+        }
+
+        .servicio:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .servicio-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .servicio-titulo {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            margin-bottom: 1rem;
+            color: var(--oro);
+        }
+
+        .servicio p {
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .servicio strong {
+            color: var(--oro);
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+        }
+
+        /* Sección 5: Sobre Mí */
+        .sobre-mi {
+            min-height: 100vh;
+            padding: 4rem 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(ellipse at center, #2d2d2d 0%, #1a1a1a 100%);
+        }
+
+        .huella-container {
+            position: relative;
+            width: clamp(250px, 50vw, 300px);
+            height: clamp(250px, 50vw, 300px);
+            margin: 2rem 0;
+        }
+
+        .huella {
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, var(--oro) 0%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: pulse 3s ease-in-out infinite;
+            cursor: pointer;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.1); opacity: 0.6; }
+        }
+
+        .frase {
+            position: absolute;
+            color: var(--oro);
+            font-weight: 300;
+            opacity: 0;
+            transition: all 0.5s ease;
+            pointer-events: none;
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            text-align: center;
+            max-width: 150px;
+        }
+
+        .frase.activa {
+            opacity: 1;
+        }
+
+        /* Sección 6: Contacto */
+        .contacto {
+            min-height: 100vh;
+            padding: 4rem 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%);
+        }
+
+        .formulario {
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .campo {
+            margin-bottom: 2rem;
+        }
+
+        .campo label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--oro);
+            font-weight: 300;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+        }
+
+        .campo input,
+        .campo textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s ease;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+        }
+
+        .campo input:focus,
+        .campo textarea:focus {
+            outline: none;
+            border-color: var(--oro);
+            box-shadow: 0 0 20px rgba(243, 156, 18, 0.3);
+        }
+
+        .btn-enviar {
+            width: 100%;
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, var(--oro), var(--fuego));
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-enviar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(243, 156, 18, 0.4);
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .language-toggle {
+                top: 1rem;
+                right: 1rem;
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+
+            .proyecto:nth-child(odd) .proyecto-content,
+            .proyecto:nth-child(even) .proyecto-content {
+                margin-left: 5%;
+                margin-right: 5%;
+                text-align: center;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .proyecto-icono {
+                left: 20px;
+            }
+
+            .chakana-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .servicios-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .huella-container {
+                width: 250px;
+                height: 250px;
+            }
+
+            .frase {
+                font-size: 0.8rem;
+                max-width: 120px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .umbral {
+                padding: 0 1rem;
+            }
+
+            .titulo-principal {
+                font-size: 2.5rem;
+            }
+
+            .subtitulo {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .proyecto-content {
+                padding: 1.5rem;
+            }
+
+            .fase {
+                padding: 1rem;
+            }
+
+            .servicio {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Animaciones de entrada */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Splash Screen con Logo Animado -->
+    <div class="splash-screen" id="splashScreen">
+        <div class="logo-container">
+            <svg class="logo-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+                <!-- Chakana base (cruz andina) -->
+                <path class="logo-path" d="M150 50 L150 20 M130 70 L170 70 M150 50 L150 250 M130 230 L170 230 M50 150 L20 150 M70 130 L70 170 M50 150 L250 150 M230 130 L230 170" />
+                
+                <!-- Círculo exterior -->
+                <circle class="logo-path" cx="150" cy="150" r="120" />
+                
+                <!-- Elementos decorativos andinos -->
+                <path class="logo-path" d="M100 100 L120 120 M180 100 L200 120 M100 200 L120 180 M180 200 L200 180" />
+                
+                <!-- Elementos tecnológicos (píxeles/código) -->
+                <rect class="logo-path" x="80" y="80" width="15" height="15" />
+                <rect class="logo-path" x="205" y="80" width="15" height="15" />
+                <rect class="logo-path" x="80" y="205" width="15" height="15" />
+                <rect class="logo-path" x="205" y="205" width="15" height="15" />
+                
+                <!-- Número 7 estilizado en el centro -->
+                <path class="logo-path" d="M130 130 L170 130 L150 170 L150 170" stroke-width="4" />
+            </svg>
+            <div class="logo-text" data-lang-es="Séptima Pacha Co." data-lang-en="Seventh Pacha Co.">Séptima Pacha Co.</div>
+        </div>
+    </div>
+
+    <!-- Botón de idioma -->
+    <div class="language-toggle" id="languageToggle">
+        <span data-lang-es="English" data-lang-en="Español">English</span>
+    </div>
+
+    <!-- Cursor personalizado -->
+    <div class="custom-cursor"></div>
+
+    <!-- Sección 1: El Umbral de la Pacha -->
+    <section class="umbral">
+        <h1 class="titulo-principal" data-lang-es="Séptima Pacha Co." data-lang-en="Seventh Pacha Co.">Séptima Pacha Co.</h1>
+        <p class="subtitulo" data-lang-es="Arte multidisciplinario ancestral-tecnológico" data-lang-en="Ancestral-technological multidisciplinary art">Arte multidisciplinario ancestral-tecnológico</p>
+        <div class="scroll-arrow">↓</div>
+    </section>
+
+    <!-- Sección 2: Camino de Creaciones -->
+    <section class="proyectos">
+        <h2 class="section-title fade-in" data-lang-es="Camino de Creaciones" data-lang-en="Path of Creations">Camino de Creaciones</h2>
+        <div class="timeline">
+            <div class="proyecto fade-in">
+                <div class="proyecto-icono">👁️</div>
+                <div class="proyecto-content">
+                    <h3 data-lang-es="Web de Tarot Interactiva" data-lang-en="Interactive Tarot Web">Web de Tarot Interactiva</h3>
+                    <p data-lang-es="Una experiencia digital que conecta la sabiduría ancestral con interfaces modernas. Cartas que cobran vida al tocarlas." data-lang-en="A digital experience that connects ancestral wisdom with modern interfaces. Cards that come alive when touched.">Una experiencia digital que conecta la sabiduría ancestral con interfaces modernas. Cartas que cobran vida al tocarlas.</p>
+                    <div class="proyecto-link">
+                        <a href="https://nalialma.github.io/Tarot-en-Luz/" target="_blank" data-lang-es="Ver Proyecto" data-lang-en="View Project">Ver Proyecto</a>
+                    </div>
+                </div>
+            </div>
+            <div class="proyecto fade-in">
+                <div class="proyecto-icono">🎵</div>
+                <div class="proyecto-content">
+                    <h3 data-lang-es="Videoclip Experimental" data-lang-en="Experimental Music Video">Videoclip Experimental</h3>
+                    <p data-lang-es="Fusión de ritmos andinos con beats electrónicos. Visuales generados por código que bailan con la música." data-lang-en="Fusion of Andean rhythms with electronic beats. Code-generated visuals that dance with the music.">Fusión de ritmos andinos con beats electrónicos. Visuales generados por código que bailan con la música.</p>
+                    <div class="proyecto-link">
+                        <a href="https://www.youtube.com/watch?v=I-kJxkPrIkg&list=RDI-kJxkPrIkg&start_radio=1&pp=ygUKbmFsaWEgYWxtYaAHAQ%3D%3D" target="_blank" data-lang-es="Ver Video" data-lang-en="Watch Video">Ver Video</a>
+                    </div>
+                </div>
+            </div>
+            <div class="proyecto fade-in">
+                <div class="proyecto-icono">🎼</div>
+                <div class="proyecto-content">
+                    <h3 data-lang-es="Composiciones Instrumentales" data-lang-en="Instrumental Compositions">Composiciones Instrumentales</h3>
+                    <p data-lang-es="Paisajes sonoros que fusionan instrumentos andinos con producción digital. Cada pista cuenta una historia sin palabras." data-lang-en="Soundscapes that fuse Andean instruments with digital production. Each track tells a story without words.">Paisajes sonoros que fusionan instrumentos andinos con producción digital. Cada pista cuenta una historia sin palabras.</p>
+                    <div class="proyecto-link">
+                        <a href="https://www.bandlab.com/post/6b6eef35-a232-f011-8b3d-000d3aa44618" target="_blank" data-lang-es="Escuchar" data-lang-en="Listen">Escuchar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="proyecto fade-in">
+                <div class="proyecto-icono">🌟</div>
+                <div class="proyecto-content">
+                    <h3 data-lang-es="ASTER - Agencia Digital" data-lang-en="ASTER - Digital Agency">ASTER - Agencia Digital</h3>
+                    <p data-lang-es="Plataforma de marketing digital para empresas. Donde la estrategia se encuentra con la creatividad ancestral." data-lang-en="Digital marketing platform for businesses. Where strategy meets ancestral creativity.">Plataforma de marketing digital para empresas. Donde la estrategia se encuentra con la creatividad ancestral.</p>
+                    <div class="proyecto-link">
+                        <a href="https://nalialma.github.io/ASTER/" target="_blank" data-lang-es="Explorar" data-lang-en="Explore">Explorar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="proyecto fade-in">
+                <div class="proyecto-icono">⭕</div>
+                <div class="proyecto-content">
+                    <h3 data-lang-es="Animación Stop Motion Digital" data-lang-en="Digital Stop Motion Animation">Animación Stop Motion Digital</h3>
+                    <p data-lang-es="Técnicas tradicionales encuentran la era digital. Cerámicas que cobran vida frame por frame, narrando historias ancestrales." data-lang-en="Traditional techniques meet the digital age. Ceramics that come to life frame by frame, telling ancestral stories.">Técnicas tradicionales encuentran la era digital. Cerámicas que cobran vida frame por frame, narrando historias ancestrales.</p>
+                    <div class="proyecto-link">
+                        <a href="https://youtu.be/dRHH-o-Ajto?si=sz28di-djKZM3WIQ" target="_blank" data-lang-es="Ver Animación" data-lang-en="Watch Animation">Ver Animación</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección 3: Las 4 Fases del Arte -->
+    <section class="fases">
+        <h2 class="section-title fade-in" data-lang-es="Las 4 Fases del Arte" data-lang-en="The 4 Phases of Art">Las 4 Fases del Arte</h2>
+        <div class="chakana-grid">
+            <div class="fase raiz fade-in">
+                <div class="fase-icono">🌱</div>
+                <h3 class="fase-titulo" data-lang-es="Raíz" data-lang-en="Root">Raíz</h3>
+                <p data-lang-es="Inspiración, dibujo a mano, conexión con la tierra" data-lang-en="Inspiration, hand drawing, connection with the earth">Inspiración, dibujo a mano, conexión con la tierra</p>
+            </div>
+            <div class="fase codigo fade-in">
+                <div class="fase-icono">💻</div>
+                <h3 class="fase-titulo" data-lang-es="Código" data-lang-en="Code">Código</h3>
+                <p data-lang-es="Diseño digital, programación, arquitectura de experiencias" data-lang-en="Digital design, programming, experience architecture">Diseño digital, programación, arquitectura de experiencias</p>
+            </div>
+            <div class="fase fuego fade-in">
+                <div class="fase-icono">🔥</div>
+                <h3 class="fase-titulo" data-lang-es="Fuego" data-lang-en="Fire">Fuego</h3>
+                <p data-lang-es="Cerámica, pintura, escultura, transformación física" data-lang-en="Ceramics, painting, sculpture, physical transformation">Cerámica, pintura, escultura, transformación física</p>
+            </div>
+            <div class="fase aire fade-in">
+                <div class="fase-icono">🎶</div>
+                <h3 class="fase-titulo" data-lang-es="Aire" data-lang-en="Air">Aire</h3>
+                <p data-lang-es="Música, voz, animación, elementos que fluyen" data-lang-en="Music, voice, animation, flowing elements">Música, voz, animación, elementos que fluyen</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección 4: Servicios -->
+    <section class="servicios">
+        <h2 class="section-title fade-in" data-lang-es="Ofrendas Creativas" data-lang-en="Creative Offerings">Ofrendas Creativas</h2>
+        <div class="servicios-grid">
+            <div class="servicio fade-in">
+                <div class="servicio-content">
+                    <h3 class="servicio-titulo" data-lang-es="Páginas que Respiran" data-lang-en="Breathing Websites">Páginas que Respiran</h3>
+                    <p data-lang-es="Diseño web con alma. Interfaces que conectan, no solo informan." data-lang-en="Web design with soul. Interfaces that connect, not just inform.">Diseño web con alma. Interfaces que conectan, no solo informan.</p>
+                    <strong data-lang-es="Desde $800" data-lang-en="From $800">Desde $800</strong>
+                </div>
+            </div>
+            <div class="servicio fade-in">
+                <div class="servicio-content">
+                    <h3 class="servicio-titulo" data-lang-es="Sonidos de Origen" data-lang-en="Origin Sounds">Sonidos de Origen</h3>
+                    <p data-lang-es="Composición musical que fusiona lo ancestral con lo contemporáneo." data-lang-en="Musical composition that fuses the ancestral with the contemporary.">Composición musical que fusiona lo ancestral con lo contemporáneo.</p>
+                    <strong data-lang-es="Desde $500" data-lang-en="From $500">Desde $500</strong>
+                </div>
+            </div>
+            <div class="servicio fade-in">
+                <div class="servicio-content">
+                    <h3 class="servicio-titulo" data-lang-es="Marcas con Memoria" data-lang-en="Brands with Memory">Marcas con Memoria</h3>
+                    <p data-lang-es="Identidad visual que honra las raíces mientras abraza el futuro." data-lang-en="Visual identity that honors roots while embracing the future.">Identidad visual que honra las raíces mientras abraza el futuro.</p>
+                    <strong data-lang-es="Desde $1200" data-lang-en="From $1200">Desde $1200</strong>
+                </div>
+            </div>
+            <div class="servicio fade-in">
+                <div class="servicio-content">
+                    <h3 class="servicio-titulo" data-lang-es="Piezas del Tiempo" data-lang-en="Pieces of Time">Piezas del Tiempo</h3>
+                    <p data-lang-es="Arte físico personalizado: cerámicas, pinturas, esculturas únicas." data-lang-en="Personalized physical art: ceramics, paintings, unique sculptures.">Arte físico personalizado: cerámicas, pinturas, esculturas únicas.</p>
+                    <strong data-lang-es="Desde $300" data-lang-en="From $300">Desde $300</strong>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección 5: Sobre Mí -->
+    <section class="sobre-mi">
+        <h2 class="section-title fade-in" data-lang-es="Huella" data-lang-en="Footprint">Huella</h2>
+        <div class="huella-container">
+            <div class="huella"></div>
+            <div class="frase" style="top: 20%; left: 10%;" data-lang-es="Pinto con tierra y CSS" data-lang-en="I paint with earth and CSS">Pinto con tierra y CSS</div>
+            <div class="frase" style="top: 30%; right: 10%;" data-lang-es="Canto en quechua y programo en JavaScript" data-lang-en="I sing in Quechua and code in JavaScript">Canto en quechua y programo en JavaScript</div>
+            <div class="frase" style="bottom: 30%; left: 15%;" data-lang-es="Creo para conectar mundos" data-lang-en="I create to connect worlds">Creo para conectar mundos</div>
+            <div class="frase" style="bottom: 20%; right: 20%;" data-lang-es="Artista multidisciplinaria" data-lang-en="Multidisciplinary artist">Artista multidisciplinaria</div>
+        </div>
+    </section>
+
+    <!-- Sección 6: Contacto -->
+    <section class="contacto">
+        <h2 class="section-title fade-in" data-lang-es="Conexión" data-lang-en="Connection">Conexión</h2>
+        <form class="formulario fade-in">
+            <div class="campo">
+                <label for="nombre" data-lang-es="Nombre" data-lang-en="Name">Nombre</label>
+                <input type="text" id="nombre" name="nombre" required>
+            </div>
+            <div class="campo">
+                <label for="email" data-lang-es="Email" data-lang-en="Email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="campo">
+                <label for="mensaje" data-lang-es="Mensaje" data-lang-en="Message">Mensaje</label>
+                <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn-enviar" data-lang-es="Sembrar Mensaje" data-lang-en="Plant Message">Sembrar Mensaje</button>
+        </form>
+    </section>
+
+    <script>
+        // Sistema de traducción
+        let currentLang = 'es';
+        const translations = {
+            es: {
+                'btn-sending': 'Sembrando...',
+                'btn-sent': 'Mensaje Sembrado ✨',
+                'thanks-message': 'Gracias. Tu mensaje ha sido sembrado.'
+            },
+            en: {
+                'btn-sending': 'Planting...',
+                'btn-sent': 'Message Planted ✨',
+                'thanks-message': 'Thank you. Your message has been planted.'
+            }
+        };
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'es' ? 'en' : 'es';
+            document.documentElement.lang = currentLang;
+            
+            // Actualizar todos los elementos con data-lang
+            const elements = document.querySelectorAll('[data-lang-es], [data-lang-en]');
+            elements.forEach(element => {
+                const text = element.getAttribute(`data-lang-${currentLang}`);
+                if (text) {
+                    element.textContent = text;
+                }
+            });
+            
+            // Actualizar placeholders si los hay
+            const inputs = document.querySelectorAll('input[placeholder], textarea[placeholder]');
+            inputs.forEach(input => {
+                const placeholder = input.getAttribute(`data-placeholder-${currentLang}`);
+                if (placeholder) {
+                    input.placeholder = placeholder;
+                }
+            });
+        }
+
+        // Registro de plugins GSAP
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Animación del logo en splash screen
+        window.addEventListener('load', () => {
+            const logoPaths = document.querySelectorAll('.logo-path');
+            const logoText = document.querySelector('.logo-text');
+            const splashScreen = document.getElementById('splashScreen');
+            
+            // Animar cada path del logo
+            logoPaths.forEach((path, index) => {
+                gsap.to(path, {
+                    strokeDashoffset: 0,
+                    duration: 1.5,
+                    delay: index * 0.2,
+                    ease: "power2.inOut"
+                });
+            });
+            
+            // Animar texto del logo
+            gsap.to(logoText, {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                delay: 2,
+                ease: "power2.out"
+            });
+            
+            // Ocultar splash screen
+            setTimeout(() => {
+                splashScreen.classList.add('hide');
+                setTimeout(() => {
+                    splashScreen.style.display = 'none';
+                }, 1000);
+            }, 4000);
+        });
+
+        // Event listener para cambio de idioma
+        document.getElementById('languageToggle').addEventListener('click', toggleLanguage);
+
+        // Cursor personalizado
+        const cursor = document.querySelector('.custom-cursor');
+        let trails = [];
+        
+        // Crear estelas del cursor
+        for (let i = 0; i < 10; i++) {
+            const trail = document.createElement('div');
+            trail.className = 'cursor-trail';
+            document.body.appendChild(trail);
+            trails.push(trail);
+        }
+
+        let mouseX = 0, mouseY = 0;
+        let trailX = [], trailY = [];
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            gsap.to(cursor, {
+                x: mouseX - 10,
+                y: mouseY - 10,
+                duration: 0.1
+            });
+        });
+
+        // Animación de estelas
+        function animateTrails() {
+            trailX.unshift(mouseX);
+            trailY.unshift(mouseY);
+            
+            if (trailX.length > trails.length) {
+                trailX.pop();
+                trailY.pop();
+            }
+
+            trails.forEach((trail, index) => {
+                if (trailX[index] !== undefined) {
+                    gsap.to(trail, {
+                        x: trailX[index] - 2,
+                        y: trailY[index] - 2,
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+                }
+            });
+
+            requestAnimationFrame(animateTrails);
+        }
+        animateTrails();
+
+        // Scroll suave para la flecha
+        document.querySelector('.scroll-arrow').addEventListener('click', () => {
+            gsap.to(window, {duration: 1.5, scrollTo: ".proyectos", ease: "power2.inOut"});
+        });
+
+        // Animaciones de scroll
+        gsap.utils.toArray('.fade-in').forEach(element => {
+            gsap.fromTo(element, 
+                { y: 50, opacity: 0 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    duration: 1,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 80%",
+                        end: "bottom 20%",
+                        toggleActions: "play none none none"
+                    }
+                }
+            );
+        });
+
+        // Animación de proyectos en timeline
+        gsap.utils.toArray('.proyecto').forEach((proyecto, index) => {
+            gsap.fromTo(proyecto,
+                { x: index % 2 === 0 ? -100 : 100, opacity: 0 },
+                {
+                    x: 0,
+                    opacity: 1,
+                    duration: 1,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: proyecto,
+                        start: "top 80%",
+                        toggleActions: "play none none none"
+                    }
+                }
+            );
+        });
+
+        // Interacción con las fases
+        document.querySelectorAll('.fase').forEach(fase => {
+            fase.addEventListener('mouseenter', () => {
+                gsap.to(fase, {
+                    scale: 1.05,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+
+            fase.addEventListener('mouseleave', () => {
+                gsap.to(fase, {
+                    scale: 1,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+        });
+
+        // Interacción con la huella
+        const huella = document.querySelector('.huella');
+        const frases = document.querySelectorAll('.frase');
+        let fraseActual = 0;
+
+        huella.addEventListener('mouseenter', () => {
+            // Ocultar frase actual si existe
+            if (frases[fraseActual]) {
+                frases[fraseActual].classList.remove('activa');
+            }
+            
+            // Mostrar siguiente frase
+            fraseActual = (fraseActual + 1) % frases.length;
+            frases[fraseActual].classList.add('activa');
+        });
+
+        // Animación del formulario
+        document.querySelector('.formulario').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const btn = document.querySelector('.btn-enviar');
+            const originalText = btn.textContent;
+            
+            btn.textContent = translations[currentLang]['btn-sending'];
+            btn.disabled = true;
+            
+            // Simular envío
+            setTimeout(() => {
+                btn.textContent = translations[currentLang]['btn-sent'];
+                
+                // Animación de semilla creciendo
+                const semilla = document.createElement('div');
+                semilla.innerHTML = '🌱';
+                semilla.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    font-size: 2rem;
+                    z-index: 10000;
+                    pointer-events: none;
+                `;
+                document.body.appendChild(semilla);
+                
+                gsap.fromTo(semilla, 
+                    { scale: 0, y: 0 },
+                    { 
+                        scale: 3, 
+                        y: -100, 
+                        duration: 2,
+                        ease: "power2.out",
+                        onComplete: () => semilla.remove()
+                    }
+                );
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.disabled = false;
+                    document.querySelector('.formulario').reset();
+                }, 3000);
+            }, 2000);
+        });
+
+        // Cambios de cursor según sección
+        const secciones = [
+            { selector: '.umbral', cursor: '✨' },
+            { selector: '.proyectos', cursor: '🎨' },
+            { selector: '.fases', cursor: '⚡' },
+            { selector: '.servicios', cursor: '💫' },
+            { selector: '.sobre-mi', cursor: '👋' },
+            { selector: '.contacto', cursor: '📧' }
+        ];
+
+        secciones.forEach(seccion => {
+            ScrollTrigger.create({
+                trigger: seccion.selector,
+                start: "top center",
+                end: "bottom center",
+                onEnter: () => cursor.innerHTML = seccion.cursor,
+                onEnterBack: () => cursor.innerHTML = seccion.cursor
+            });
+        });
+
+        // Efecto parallax sutil en el fondo
+        gsap.to('.umbral::before', {
+            y: '-20%',
+            ease: "none",
+            scrollTrigger: {
+                trigger: '.umbral',
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true
+            }
+        });
+
+        // Responsividad mejorada para dispositivos móviles
+        function updateResponsiveElements() {
+            const isMobile = window.innerWidth <= 768;
+            
+            if (isMobile) {
+                // Ajustar animaciones para móvil
+                ScrollTrigger.batch('.fade-in', {
+                    onEnter: elements => gsap.fromTo(elements, 
+                        { y: 30, opacity: 0 },
+                        { y: 0, opacity: 1, duration: 0.6, stagger: 0.1 }
+                    )
+                });
+            }
+        }
+
+        window.addEventListener('resize', updateResponsiveElements);
+        updateResponsiveElements();
+
+        // Optimización de rendimiento para dispositivos móviles
+        if (window.innerWidth <= 768) {
+            // Reducir la cantidad de trails del cursor en móvil
+            trails = trails.slice(0, 5);
+            
+            // Simplificar algunas animaciones
+            gsap.set('.cursor-trail', { display: 'none' });
+        }
+
+        // Accesibilidad mejorada
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                cursor.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('mousemove', () => {
+            cursor.style.display = 'block';
+        });
+
+        // Preload de recursos para mejor rendimiento
+        const preloadImages = () => {
+            const imageUrls = [
+                // Aquí podrías agregar URLs de imágenes si las tuvieras
+            ];
+            
+            imageUrls.forEach(url => {
+                const img = new Image();
+                img.src = url;
+            });
+        };
+
+        preloadImages();
+    </script>
+</body>
+</html>
