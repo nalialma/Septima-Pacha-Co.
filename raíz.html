@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raíz | Séptima Pacha Co.</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+     <link rel="stylesheet" href="styles.css">
+   
+</head>
+<body>
+    <!-- Cursor -->
+    <div class="custom-cursor">🌱</div>
+
+    <!-- Botón de regreso -->
+    <a href="index.html" class="back-button">
+        <span>←</span>
+        <span data-lang-es="Volver" data-lang-en="Back">Volver</span>
+    </a>
+
+    <!-- Botón de idioma -->
+    <div class="language-toggle" id="languageToggle">
+        <span data-lang-es="English" data-lang-en="Español">English</span>
+    </div>
+
+    <!-- Header -->
+    <section class="header">
+        <div class="phase-icon">🌱</div>
+        <h1 class="page-title fade-in" data-lang-es="Raíz" data-lang-en="Root">Raíz</h1>
+        <p class="page-subtitle fade-in" data-lang-es="Inspiración ancestral, conexión con la tierra, arte que nace del corazón" data-lang-en="Ancestral inspiration, connection with the earth, art born from the heart">Inspiración ancestral, conexión con la tierra, arte que nace del corazón</p>
+    </section>
+
+    <!-- Galería -->
+    <section class="gallery-section">
+        <div class="gallery-intro fade-in">
+            <h2 data-lang-es="Semillas de Creación" data-lang-en="Seeds of Creation">Semillas de Creación</h2>
+            <p data-lang-es="Cada trazo nace de la tierra, cada línea es un susurro del viento andino. Aquí reposan las primeras chispas, los bocetos que danzan entre lo sagrado y lo humano, donde la mano encuentra su voz ancestral." data-lang-en="Each stroke is born from the earth, each line is a whisper of the Andean wind. Here rest the first sparks, the sketches that dance between the sacred and the human, where the hand finds its ancestral voice.">Cada trazo nace de la tierra, cada línea es un susurro del viento andino. Aquí reposan las primeras chispas, los bocetos que danzan entre lo sagrado y lo humano, donde la mano encuentra su voz ancestral.</p>
+        </div>
+
+        <div class="gallery-grid">
+            <!-- Imagen 1 -->
+            <div class="gallery-item" onclick="openModal(1)">
+                <div class="gallery-image">
+                    <div class="gallery-placeholder">🎨</div>
+                </div>
+                <div class="gallery-caption">
+                    <h3 class="caption-title" data-lang-es="Chakana Primordial" data-lang-en="Primordial Chakana">Chakana Primordial</h3>
+                    <p class="caption-text" data-lang-es="Primer boceto de la cruz andina que guía todas las creaciones. Carboncillo sobre papel de algodón, 2024." data-lang-en="First sketch of the Andean cross that guides all creations. Charcoal on cotton paper, 2024.">Primer boceto de la cruz andina que guía todas las creaciones. Carboncillo sobre papel de algodón, 2024.</p>
+                </div>
+            </div>
+
+            <!-- Imagen 2 -->
+            <div class="gallery-item" onclick="openModal(2)">
+                <div class="gallery-image">
+                    <div class="gallery-placeholder">🏔️</div>
+                </div>
+                <div class="gallery-caption">
+                    <h3 class="caption-title" data-lang-es="Apus Dormidos" data-lang-en="Sleeping Apus">Apus Dormidos</h3>
+                    <p class="caption-text" data-lang-es="Los espíritus de las montañas en su eterno descanso. Dibujo en tinta sepia, inspirado en los cerros de Salta." data-lang-en="The spirits of the mountains in their eternal rest. Sepia ink drawing, inspired by the hills of Salta.">Los espíritus de las montañas en su eterno descanso. Dibujo en tinta sepia, inspirado en los cerros de Salta.</p>
+                </div>
+            </div>
+
+            <!-- Imagen 3 -->
+            <div class="gallery-item" onclick="openModal(3)">
+                <div class="gallery-image">
+                    <div class="gallery-placeholder">🌿</div>
+                </div>
+                <div class="gallery-caption">
+                    <h3 class="caption-title" data-lang-es="Medicina Ancestral" data-lang-en="Ancestral Medicine">Medicina Ancestral</h3>
+                    <p class="caption-text" data-lang-es="Estudio botánico de plantas sagradas del norte argentino. Acuarela y grafito, 2024." data-lang-en="Botanical study of sacred plants from northern Argentina. Watercolor and graphite, 2024.">Estudio botánico de plantas sagradas del norte argentino. Acuarela y grafito, 2024.</p>
+                </div>
+            </div>
+
+            <!-- Imagen 4 -->
+            <div class="gallery-item" onclick="openModal(4)">
+                <div class="gallery-image">
+                    <div class="gallery-placeholder">🌙</div>
+                </div>
+                <div class="gallery-caption">
+                    <h3 class="caption-title" data-lang-es="Ciclos Lunares" data-lang-en="Lunar Cycles">Ciclos Lunares</h3>
+                    <p class="caption-text" data-lang-es="Mandala lunar que honra los tiempos femeninos y los ritmos cósmicos. Tinta china sobre papel de arroz." data-lang-en="Lunar mandala that honors feminine times and cosmic rhythms. Chinese ink on rice paper.">Mandala lunar que honra los tiempos femeninos y los ritmos cósmicos. Tinta china sobre papel de arroz.</p>
+                </div>
+            </div>
+
+            <!-- Imagen 5 -->
+            <div class="gallery-item" onclick="openModal(5)">
+                <div class="gallery-image">
+                    <div class="gallery-placeholder">🦎</div>
+                </div>
+                <div class="gallery-caption">
+                    <h3 class="caption-title" data-lang-es="Espíritu Lagarto" data-lang-en="Lizard Spirit">Espíritu Lagarto</h3>
+                    <p class="caption-text" data-lang-es="El lagarto como símbolo de regeneración y conexión telúrica. Boceto en carbón vegetal." data-lang-en="The lizard as a symbol of regeneration and telluric connection. Sketch in vegetal charcoal.">El lagarto como símbolo de regeneración y conexión telúrica. Boceto en carbón vegetal.</p>
+                </div>
+            </div>
+
+            <!-- Imagen 6 -->
+            <div class="gallery-item" onclick="openModal(6)">
+                <div class="gallery-image">
+                    <div class="gallery-placeholder">🌾</div>
+                </div>
+                <div class="gallery-caption">
+                    <h3 class="caption-title" data-lang-es="Cosecha de Quinoa" data-lang-en="Quinoa Harvest">Cosecha de Quinoa</h3>
+                    <p class="caption-text" data-lang-es="Manos que cosechan el oro de los Andes. Estudio gestual en sanguina sobre papel kraft." data-lang-en="Hands that harvest the gold of the Andes. Gestural study in sanguine on kraft paper.">Manos que cosechan el oro de los Andes. Estudio gestual en sanguina sobre papel kraft.</p>
+                </div>
+            </div>
+
+            <!-- Imagen 7 -->
+            <div class="gallery-item" onclick="openModal(7)">
+                <div class="gallery-image">
+                    <div class="gallery-placeholder">🕊️</div>
+                </div>
+                <div class="gallery-caption">
+                    <h3 class="caption-title" data-lang-es="Vuelo Sagrado" data-lang-en="Sacred Flight">Vuelo Sagrado</h3>
+                    <p class="caption-text" data-lang-es="El cóndor como mensajero entre mundos. Dibujo en grafito sobre papel texturado, 2024." data-lang-en="The condor as messenger between worlds. Graphite drawing on textured paper, 2024.">El cóndor como mensajero entre mundos. Dibujo en grafito sobre papel texturado, 2024.</p>
+                </div>
+            </div>
+
+            <!-- Imagen 8 -->
+            <div class="gallery-item" onclick="openModal(8)">
+                <div class="gallery-image">
+                    <div class="gallery-placeholder">🔥</div>
+                </div>
+                <div class="gallery-caption">
+                    <h3 class="caption-title" data-lang-es="Fuego Ceremonial" data-lang-en="Ceremonial Fire">Fuego Ceremonial</h3>
+                    <p class="caption-text" data-lang-es="Llamas danzantes en ritual de purificación. Pastel seco sobre papel negro, capturando la energía del fuego sagrado." data-lang-en="Dancing flames in purification ritual. Dry pastel on black paper, capturing the energy of sacred fire.">Llamas danzantes en ritual de purificación. Pastel seco sobre papel negro, capturando la energía del fuego sagrado.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal img-->
+    <div class="image-modal" id="imageModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <div class="modal-image" id="modalImage"></div>
+            <div class="modal-caption">
+                <h3 id="modalTitle"></h3>
+                <p id="modalDescription"></p>
+            </div>
+        </div>
+    </div>
+
+     <script src="script-raiz.js"></script>
+</body>
+</html>

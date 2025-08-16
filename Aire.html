@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aire - Música | Séptima Pacha Co.</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --aire-primary: #4A90E2;
+            --aire-secondary: #87CEEB;
+            --aire-accent: #6495ED;
+            --aire-deep: #2E3B4E;
+            --aire-light: #B0E0E6;
+            --oro: #F39C12;
+            --sombra: #2C3E50;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #1a1a2a 0%, #2a2a3a 50%, #1a2a3a 100%);
+            color: #fff;
+            cursor: none;
+        }
+
+        /* Cursor personalizado con efecto de aire */
+        .custom-cursor {
+            position: fixed;
+            width: 24px;
+            height: 24px;
+            background: radial-gradient(circle, var(--aire-accent) 0%, var(--aire-primary) 70%, transparent 100%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.2s ease;
+            box-shadow: 0 0 20px var(--aire-primary);
+        }
+
+        /* Partículas de aire de fondo */
+        .air-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--aire-primary);
+            border-radius: 50%;
+            animation: float-air 8s linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes float-air {
+            0% { 
+                opacity: 0;
+                transform: translateY(100vh) translateX(0) scale(0);
+            }
+            15% { 
+                opacity: 1;
+                transform: translateY(85vh) translateX(20px) scale(1);
+            }
+            50% { 
+                opacity: 0.7;
+                transform: translateY(50vh) translateX(-30px) scale(0.8);
+            }
+            85% { 
+                opacity: 0.3;
+                transform: translateY(15vh) translateX(25px) scale(0.5);
+            }
+            100% { 
+                opacity: 0;
+                transform: translateY(-10vh) translateX(0) scale(0);
+            }
+        }
+
+        /* Navegación de retorno */
+        .nav-back {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            z-index: 9999;
+            background: rgba(74, 144, 226, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(74, 144, 226, 0.3);
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            color: var(--aire-primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .nav-back:hover {
+            background: rgba(74, 144, 226, 0.2);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(74, 144, 226, 0.3);
+        }
+
+        /* Botón de idioma */
+        .language-toggle {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 9999;
+            background: rgba(74, 144, 226, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--aire-primary);
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            color: var(--oro);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .language-toggle:hover {
+            background: rgba(74, 144, 226, 0.2);
+            transform: scale(1.05);
+        }
+
+        /* Hero Section */
+        .hero-aire {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            background: radial-gradient(ellipse at center, rgba(74, 144, 226, 0.2) 0%, transparent 70%);
+        }
+
+        .aire-icon {
+            font-size: 8rem;
+            margin-bottom: 2rem;
+            animation: breathe 4s ease-in-out infinite;
+            filter: drop-shadow(0 0 30px var(--aire-primary));
+        }
+
+        @keyframes breathe {
+            0%, 100% { 
+                text-shadow: 0 0 20px var(--aire-primary), 0 0 40px var(--aire-primary);
+                transform: scale(1) translateY(0);
+            }
+            50% { 
+                text-shadow: 0 0 30px var(--aire-secondary), 0 0 60px var(--aire-secondary);
+                transform: scale(1.1) translateY(-10px);
+            }
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--aire-primary), var(--aire-secondary), var(--aire-accent));
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: airGradient 5s ease-in-out infinite;
+        }
+
+        @keyframes airGradient {
+            0%, 100% { background-position: 0% 50%; }
+            33% { background-position: 100% 50%; }
+            66% { background-position: 50% 100%; }
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 3vw, 1.8rem);
+            font-weight: 300;
+            opacity: 0.9;
+            max-width: 800px;
+            margin-bottom: 3rem;
+            text-shadow: 0 0 10px rgba(74, 144, 226, 0.3);
+        }
+
+        .air-quote {
+            background: rgba(74, 144, 226, 0.1);
+            border-left: 4px solid var(--aire-primary);
+            border-radius: 0 15px 15px 0;
+            padding: 2rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-style: italic;
+            color: var(--aire-accent);
+            max-width: 600px;
+            margin: 2rem 0;
+        }
+
+        /* Secciones de contenido */
+        .section {
+            min-height: 80vh;
+            padding: 4rem 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--aire-primary);
+            text-shadow: 0 0 20px rgba(74, 144, 226, 0.5);
+        }
+
+        /* Grid de composiciones */
+        .compositions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            width: 100%;
+            margin-bottom: 4rem;
+        }
+
+        .composition-card {
+            background: rgba(74, 144, 226, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid transparent;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .composition-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--aire-primary), var(--aire-secondary), var(--aire-accent));
+            border-radius: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+            animation: airBorder 6s ease-in-out infinite;
+        }
+
+        @keyframes airBorder {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .composition-card:hover::before {
+            opacity: 0.3;
+        }
+
+        .composition-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(74, 144, 226, 0.4);
+        }
+
+        .composition-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            display: block;
+            animation: iconFloat 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes iconFloat {
+            0% { 
+                filter: drop-shadow(0 0 10px var(--aire-primary));
+                transform: translateY(0);
+            }
+            100% { 
+                filter: drop-shadow(0 0 20px var(--aire-accent));
+                transform: translateY(-5px);
+            }
+        }
+
+        .composition-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--aire-accent);
+        }
+
+        .composition-description {
+            font-size: 1rem;
+            line-height: 1.6;
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+
+        .composition-link {
+            background: linear-gradient(45deg, var(--aire-primary), var(--aire-secondary));
+            border: none;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0.5rem;
+        }
+
+        .composition-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(74, 144, 226, 0.4);
+        }
+
+        /* Servicios musicales */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .service-card {
+            background: rgba(74, 144, 226, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, var(--aire-primary), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            animation: rotate 6s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .service-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(74, 144, 226, 0.3);
+            border-color: var(--aire-primary);
+        }
+
+        .service-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--aire-accent);
+        }
+
+        .service-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--oro);
+        }
+
+        .service-description {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+
+        .service-price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--oro);
+            margin-bottom: 1rem;
+        }
+
+        .service-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .service-features li {
+            margin-bottom: 0.5rem;
+            opacity: 0.8;
+        }
+
+        .service-features li::before {
+            content: "♪ ";
+            color: var(--aire-accent);
+            font-weight: bold;
+        }
+
+        /* Testimonios musicales */
+        .testimonials-section {
+            background: rgba(74, 144, 226, 0.05);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 1000px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .testimonial {
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: rgba(74, 144, 226, 0.1);
+            border-radius: 15px;
+            position: relative;
+        }
+
+        .testimonial::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            font-size: 4rem;
+            color: var(--aire-accent);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--oro);
+        }
+
+        /* Filosofía musical */
+        .philosophy-section {
+            background: rgba(74, 144, 226, 0.05);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+        }
+
+        .philosophy-section::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            background: linear-gradient(45deg, var(--aire-primary), transparent, var(--aire-accent));
+            border-radius: 20px;
+            z-index: -1;
+            animation: philosophyGlow 6s ease-in-out infinite;
+        }
+
+        @keyframes philosophyGlow {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        .philosophy-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            line-height: 1.8;
+            color: var(--aire-accent);
+            font-style: italic;
+        }
+
+        /* Fade in animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-back,
+            .language-toggle {
+                top: 1rem;
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+
+            .nav-back {
+                left: 1rem;
+            }
+
+            .language-toggle {
+                right: 1rem;
+            }
+
+            .aire-icon {
+                font-size: 5rem;
+            }
+
+            .compositions-grid,
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .air-quote {
+                font-size: 1.1rem;
+                padding: 1.5rem;
+            }
+
+            .philosophy-section {
+                padding: 2rem;
+            }
+
+            .philosophy-text {
+                font-size: 1.2rem;
+            }
+
+            .testimonials-section {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cursor personalizado -->
+    <div class="custom-cursor">🎵</div>
+
+    <!-- Partículas de aire -->
+    <div class="air-particles" id="airParticles"></div>
+
+    <!-- Navegación de retorno -->
+    <a href="index.html" class="nav-back">
+        <span>←</span>
+        <span data-lang-es="Volver" data-lang-en="Back">Volver</span>
+    </a>
+
+    <!-- Botón de idioma -->
+    <div class="language-toggle" id="languageToggle">
+        <span data-lang-es="English" data-lang-en="Español">English</span>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-aire">
+        <div class="aire-icon">🎶</div>
+        <h1 class="hero-title fade-in" data-lang-es="Aire" data-lang-en="Air">Aire</h1>
+        <p class="hero-subtitle fade-in" data-lang-es="Música que respira, sonidos que vuelan, melodías que conectan mundos" data-lang-en="Music that breathes, sounds that fly, melodies that connect worlds">Música que respira, sonidos que vuelan, melodías que conectan mundos</p>
+        <div class="air-quote fade-in">
+            <p data-lang-es="Cada nota es un suspiro del alma, cada melodía un puente entre corazones" data-lang-en="Each note is a sigh of the soul, each melody a bridge between hearts">Cada nota es un suspiro del alma, cada melodía un puente entre corazones</p>
+        </div>
+    </section>
+
+    <!-- Mis Composiciones -->
+    <section class="section">
+        <h2 class="section-title fade-in" data-lang-es="Sonidos del Alma" data-lang-en="Sounds of the Soul">Sonidos del Alma</h2>
+        <div class="compositions-grid">
+            <div class="composition-card fade-in">
+                <div class="composition-icon">🎼</div>
+                <h3 class="composition-title" data-lang-es="Kullay - Composición Instrumental" data-lang-en="Kullay - Instrumental Composition">Kullay - Composición Instrumental</h3>
+                <p class="composition-description" data-lang-es="Ritual musical invocado desde la tierra andina. Notas lentas, silencios sagrados, voz quechua que susurra ancestral. No es canción, es ceremonia." data-lang-en="Musical ritual invoked from the Andean earth. Slow notes, sacred silences, Quechua voice that whispers ancestral. It's not a song, it's ceremony.">Ritual musical invocado desde la tierra andina. Notas lentas, silencios sagrados, voz quechua que susurra ancestral. No es canción, es ceremonia.</p>
+                <a href="https://www.bandlab.com/track/1ff3ce38-162d-f011-8b3d-000d3aa44618?revId=1df3ce38-162d-f011-8b3d-000d3aa44618" class="composition-link" target="_blank" data-lang-es="Escuchar" data-lang-en="Listen">Escuchar</a>
+            </div>
+
+            <div class="composition-card fade-in">
+                <div class="composition-icon">🎤</div>
+                <h3 class="composition-title" data-lang-es="Video Blues - Composición y Canto" data-lang-en="Video Blues - Composition and Vocals">Video Blues - Composición y Canto</h3>
+                <p class="composition-description" data-lang-es="Años después, la voz vuelve. Rasgada, profunda, hecha blues. Entre sombras de recuerdos, una niña que fue encuentra su canto en las grietas del alma." data-lang-en="Years later, the voice returns. Ragged, deep, bluesy. Between shadows of memories, a girl who was finds her song in the cracks of her soul.">Años después, la voz vuelve. Rasgada, profunda, hecha blues. Entre sombras de recuerdos, una niña que fue encuentra su canto en las grietas del alma.</p>
+                <a href="https://www.youtube.com/watch?v=I-kJxkPrIkg&list=RDI-kJxkPrIkg&start_radio=1&pp=ygUKbmFsaWEgYWxtYaAHAQ%3D%3D" class="composition-link" target="_blank" data-lang-es="Ver Video" data-lang-en="Watch Video">Ver Video</a>
+            </div>
+
+            <div class="composition-card fade-in">
+                <div class="composition-icon">🎵</div>
+                <h3 class="composition-title" data-lang-es="Covers Ancestrales" data-lang-en="Ancestral Covers">Covers Ancestrales</h3>
+                <p class="composition-description" data-lang-es="Reinterpretaciones de clásicos con alma andina. Cada cover es una ceremonia donde lo contemporáneo abraza lo ancestral." data-lang-en="Reinterpretations of classics with Andean soul. Each cover is a ceremony where the contemporary embraces the ancestral.">Reinterpretaciones de clásicos con alma andina. Cada cover es una ceremonia donde lo contemporáneo abraza lo ancestral.</p>
+                <a href="#" class="composition-link" data-lang-es="Próximamente" data-lang-en="Coming Soon">Próximamente</a>
+            </div>
+
+            <div class="composition-card fade-in">
+                <div class="composition-icon">📝</div>
+                <h3 class="composition-title" data-lang-es="Poemas Sonoros" data-lang-en="Sound Poems">Poemas Sonoros</h3>
+                <p class="composition-description" data-lang-es="Versos que danzan entre idiomas, palabras que se vuelven música. Poesía hablada que abraza el quechua y el castellano." data-lang-en="Verses that dance between languages, words that become music. Spoken poetry that embraces Quechua and Spanish.">Versos que danzan entre idiomas, palabras que se vuelven música. Poesía hablada que abraza el quechua y el castellano.</p>
+                <a href="#" class="composition-link" data-lang-es="Explorar" data-lang-en="Explore">Explorar</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Servicios Musicales -->
+    <section class="section">
+        <h2 class="section-title fade-in" data-lang-es="Ofrendas Sonoras" data-lang-en="Sound Offerings">Ofrendas Sonoras</h2>
+        <div class="services-grid">
+            <div class="service-card fade-in">
+                <div class="service-content">
+                    <div class="service-icon">🎼</div>
+                    <h3 class="service-title" data-lang-es="Composición Musical Original" data-lang-en="Original Musical Composition">Composición Musical Original</h3>
+                    <p class="service-description" data-lang-es="Creación de música original para proyectos personales, comerciales o ceremoniales. Fusión ancestral-contemporánea." data-lang-en="Creation of original music for personal, commercial or ceremonial projects. Ancestral-contemporary fusion.">Creación de música original para proyectos personales, comerciales o ceremoniales. Fusión ancestral-contemporánea.</p>
+                    <div class="service-price" data-lang-es="Desde $600" data-lang-en="From $600">Desde $600</div>
+                    <ul class="service-features">
+                        <li data-lang-es="Composición instrumental completa" data-lang-en="Complete instrumental composition">Composición instrumental completa</li>
+                        <li data-lang-es="Arreglos profesionales" data-lang-en="Professional arrangements">Arreglos profesionales</li>
+                        <li data-lang-es="Grabación de alta calidad" data-lang-en="High quality recording">Grabación de alta calidad</li>
+                        <li data-lang-es="3 revisiones incluidas" data-lang-en="3 revisions included">3 revisiones incluidas</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="service-card fade-in">
+                <div class="service-content">
+                    <div class="service-icon">🎤</div>
+                    <h3 class="service-title" data-lang-es="Canción Completa (Música + Letra)" data-lang-en="Complete Song (Music + Lyrics)">Canción Completa (Música + Letra)</h3>
+                    <p class="service-description" data-lang-es="Composición integral: música, letra y voz. Canciones que cuentan historias, que sanan, que conectan." data-lang-en="Integral composition: music, lyrics and voice. Songs that tell stories, that heal, that connect.">Composición integral: música, letra y voz. Canciones que cuentan historias, que sanan, que conectan.</p>
+                    <div class="service-price" data-lang-es="Desde $900" data-lang-en="From $900">Desde $900</div>
+                    <ul class="service-features">
+                        <li data-lang-es="Composición musical original" data-lang-en="Original musical composition">Composición musical original</li>
+                        <li data-lang-es="Escritura de letra personalizada" data-lang-en="Personalized lyric writing">Escritura de letra personalizada</li>
+                        <li data-lang-es="Grabación vocal profesional" data-lang-en="Professional vocal recording">Grabación vocal profesional</li>
+                        <li data-lang-es="Mezcla y masterización" data-lang-en="Mixing and mastering">Mezcla y masterización</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="service-card fade-in">
+                <div class="service-content">
+                    <div class="service-icon">🎵</div>
+                    <h3 class="service-title" data-lang-es="Covers Personalizados" data-lang-en="Personalized Covers">Covers Personalizados</h3>
+                    <p class="service-description" data-lang-es="Reinterpretación única de canciones existentes. Cada cover renace con alma propia, respetando la esencia original." data-lang-en="Unique reinterpretation of existing songs. Each cover is reborn with its own soul, respecting the original essence.">Reinterpretación única de canciones existentes. Cada cover renace con alma propia, respetando la esencia original.</p>
+                    <div class="service-price" data-lang-es="Desde $400" data-lang-en="From $400">Desde $400</div>
+                    <ul class="service-features">
+                        <li data-lang-es="Arreglo musical personalizado" data-lang-en="Personalized musical arrangement">Arreglo musical personalizado</li>
+                        <li data-lang-es="Interpretación vocal única" data-lang-en="Unique vocal interpretation">Interpretación vocal única</li>
+                        <li data-lang-es="Grabación profesional" data-lang-en="Professional recording">Grabación profesional</li>
+                        <li data-lang-es="Video musical opcional (+$200)" data-lang-en="Optional music video (+$200)">Video musical opcional (+$200)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="service-card fade-in">
+                <div class="service-content">
+                    <div class="service-icon">📝</div>
+                    <h3 class="service-title" data-lang-es="Poesía Musical" data-lang-en="Musical Poetry">Poesía Musical</h3>
+                    <p class="service-description" data-lang-es="Creación de poemas hablados con música de fondo. Palabras que vuelan sobre melodías ancestrales." data-lang-en="Creation of spoken poems with background music. Words that fly over ancestral melodies.">Creación de poemas hablados con música de fondo. Palabras que vuelan sobre melodías ancestrales.</p>
+                    <div class="service-price" data-lang-es="Desde $300" data-lang-en="From $300">Desde $300</div>
+                    <ul class="service-features">
+                        <li data-lang-es="Escritura poética personalizada" data-lang-en="Personalized poetic writing">Escritura poética personalizada</li>
+                        <li data-lang-es="Música instrumental de fondo" data-lang-en="Background instrumental music">Música instrumental de fondo</li>
+                        <li data-lang-es="Recitado profesional" data-lang-en="Professional recitation">Recitado profesional</li>
+                        <li data-lang-es="En español, quechua o bilingüe" data-lang-en="In Spanish, Quechua or bilingual">En español, quechua o bilingüe</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonios -->
+    <section class="section">
+        <h2 class="section-title fade-in" data-lang-es="Ecos de Gratitud" data-lang-en="Echoes of Gratitude">Ecos de Gratitud</h2>
+        <div class="testimonials-section fade-in">
+            <div class="testimonial">
+                <p class="testimonial-text" data-lang-es="Su música no solo se escucha, se siente en el alma. Cada composición es un viaje a lugares que no sabía que existían en mí." data-lang-en="Her music is not just heard, it's felt in the soul. Each composition is a journey to places I didn't know existed within me.">Su música no solo se escucha, se siente en el alma. Cada composición es un viaje a lugares que no sabía que existían en mí.</p>
+                <div class="testimonial-author" data-lang-es="— María Elena, Cliente" data-lang-en="— María Elena, Client">— María Elena, Cliente</div>
+            </div>
+            <div class="testimonial">
+                <p class="testimonial-text" data-lang-es="Trabajar con Nalia fue como descubrir que mi proyecto tenía alma. Su música le dio vida a nuestra historia." data-lang-en="Working with Nalia was like discovering that my project had a soul. Her music brought our story to life.">Trabajar con Nalia fue como descubrir que mi proyecto tenía alma. Su música le dio vida a nuestra historia.</p>
+                <div class="testimonial-author" data-lang-es="— Carlos Mendoza, Director de Cine" data-lang-en="— Carlos Mendoza, Film Director">— Carlos Mendoza, Director de Cine</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Proceso Creativo -->
+    <section class="section">
+        <h2 class="section-title fade-in" data-lang-es="El Vuelo Creativo" data-lang-en="The Creative Flight">El Vuelo Creativo</h2>
+        <div class="process-timeline fade-in">
+            <div class="process-step">
+                <div class="process-number">1</div>
+                <h3 class="process-title" data-lang-es="Conexión Inicial" data-lang-en="Initial Connection">Conexión Inicial</h3>
+                <p class="process-description" data-lang-es="Conversamos sobre tu visión, tus emociones, lo que quieres transmitir. Cada proyecto nace de una conversación del alma." data-lang-en="We talk about your vision, your emotions, what you want to convey. Each project is born from a conversation of the soul.">Conversamos sobre tu visión, tus emociones, lo que quieres transmitir. Cada proyecto nace de una conversación del alma.</p>
+            </div>
+            <div class="process-step">
+                <div class="process-number">2</div>
+                <h3 class="process-title" data-lang-es="Inspiración Ancestral" data-lang-en="Ancestral Inspiration">Inspiración Ancestral</h3>
+                <p class="process-description" data-lang-es="Me conecto con las raíces, con la tierra, con los sonidos que viven en la memoria colectiva. La inspiración no se busca, se invoca." data-lang-en="I connect with the roots, with the earth, with the sounds that live in collective memory. Inspiration is not sought, it's invoked.">Me conecto con las raíces, con la tierra, con los sonidos que viven en la memoria colectiva. La inspiración no se busca, se invoca.</p>
+            </div>
+            <div class="process-step">
+                <div class="process-number">3</div>
+                <h3 class="process-title" data-lang-es="Creación Musical" data-lang-en="Musical Creation">Creación Musical</h3>
+                <p class="process-description" data-lang-es="Las melodías nacen, las armonías se entrelazan, las palabras encuentran su lugar. Cada nota es sembrada con intención." data-lang-en="Melodies are born, harmonies intertwine, words find their place. Each note is sown with intention.">Las melodías nacen, las armonías se entrelazan, las palabras encuentran su lugar. Cada nota es sembrada con intención.</p>
+            </div>
+            <div class="process-step">
+                <div class="process-number">4</div>
+                <h3 class="process-title" data-lang-es="Refinamiento Sagrado" data-lang-en="Sacred Refinement">Refinamiento Sagrado</h3>
+                <p class="process-description" data-lang-es="Pulimos juntos la creación. Tu retroalimentación es sagrada, porque la música debe resonar tanto en quien la crea como en quien la recibe." data-lang-en="We polish the creation together. Your feedback is sacred, because music must resonate both in those who create it and those who receive it.">Pulimos juntos la creación. Tu retroalimentación es sagrada, porque la música debe resonar tanto en quien la crea como en quien la recibe.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filosofía Musical -->
+    <section class="section">
+        <h2 class="section-title fade-in" data-lang-es="Filosofía del Aire" data-lang-en="Philosophy of Air">Filosofía del Aire</h2>
+        <div class="philosophy-section fade-in">
+            <p class="philosophy-text" data-lang-es="La música es el puente invisible entre mundos. Es el aire que respiran las emociones, el viento que lleva las historias de generación en generación. En cada composición vive un pedazo de eternidad, un susurro del universo que se vuelve canción en nuestros corazones. Crear música no es solo combinar notas, es tejer hilos de tiempo y memoria, es dar voz al silencio sagrado que habita en todos nosotros." data-lang-en="Music is the invisible bridge between worlds. It is the air that emotions breathe, the wind that carries stories from generation to generation. In each composition lives a piece of eternity, a whisper of the universe that becomes song in our hearts. Creating music is not just combining notes, it's weaving threads of time and memory, it's giving voice to the sacred silence that dwells in all of us.">La música es el puente invisible entre mundos. Es el aire que respiran las emociones, el viento que lleva las historias de generación en generación. En cada composición vive un pedazo de eternidad, un susurro del universo que se vuelve canción en nuestros corazones. Crear música no es solo combinar notas, es tejer hilos de tiempo y memoria, es dar voz al silencio sagrado que habita en todos nosotros.</p>
+        </div>
+    </section>
+
+    <!-- Contacto Musical -->
+    <section class="section">
+        <h2 class="section-title fade-in" data-lang-es="Sintoniza Conmigo" data-lang-en="Tune In With Me">Sintoniza Conmigo</h2>
+        <div class="contact-section fade-in">
+            <div class="contact-info">
+                <h3 data-lang-es="¿Listo para crear juntos?" data-lang-en="Ready to create together?">¿Listo para crear juntos?</h3>
+                <p data-lang-es="Cada proyecto musical es único. Conversemos sobre tu visión y dejemos que la música nazca de nuestra conexión." data-lang-en="Each musical project is unique. Let's talk about your vision and let the music be born from our connection.">Cada proyecto musical es único. Conversemos sobre tu visión y dejemos que la música nazca de nuestra conexión.</p>
+                <div class="contact-methods">
+                    <div class="contact-method">
+                        <span class="method-icon">📧</span>
+                        <span class="method-text" data-lang-es="Escríbeme para comenzar el diálogo musical" data-lang-en="Write to me to start the musical dialogue">Escríbeme para comenzar el diálogo musical</span>
+                    </div>
+                    <div class="contact-method">
+                        <span class="method-icon">💫</span>
+                        <span class="method-text" data-lang-es="Sesión de consulta gratuita de 30 min" data-lang-en="30 min free consultation session">Sesión de consulta gratuita de 30 min</span>
+                    </div>
+                    <div class="contact-method">
+                        <span class="method-icon">🎵</span>
+                        <span class="method-text" data-lang-es="Portfolio completo disponible bajo petición" data-lang-en="Complete portfolio available upon request">Portfolio completo disponible bajo petición</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Sistema de traducción
+        let currentLang = 'es';
+        const translations = {
+            es: {},
+            en: {}
+        };
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'es' ? 'en' : 'es';
+            document.documentElement.lang = currentLang;
+            
+            const elements = document.querySelectorAll('[data-lang-es], [data-lang-en]');
+            elements.forEach(element => {
+                const text = element.getAttribute(`data-lang-${currentLang}`);
+                if (text) {
+                    element.textContent = text;
+                }
+            });
+        }
+
+        // Registro de plugins GSAP
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Event listener para cambio de idioma
+        document.getElementById('languageToggle').addEventListener('click', toggleLanguage);
+
+        // Generar partículas de aire
+        function createAirParticles() {
+            const container = document.getElementById('airParticles');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Cursor personalizado
+        const cursor = document.querySelector('.custom-cursor');
+        let mouseX = 0, mouseY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            gsap.to(cursor, {
+                x: mouseX - 12,
+                y: mouseY - 12,
+                duration: 0.1
+            });
+        });
+
+        // Animaciones de entrada
+        gsap.utils.toArray('.fade-in').forEach(element => {
+            gsap.fromTo(element, 
+                { y: 50, opacity: 0 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    duration: 1,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 80%",
+                        toggleActions: "play none none none"
+                    }
+                }
+            );
+        });
+
+        // Animación de cards con stagger
+        gsap.utils.toArray('.composition-card, .service-card').forEach((card, index) => {
+            gsap.fromTo(card,
+                { y: 50, opacity: 0, scale: 0.9 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.8,
+                    delay: index * 0.1,
+                    ease: "back.out(1.7)",
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 85%",
+                        toggleActions: "play none none none"
+                    }
+                }
+            );
+        });
+
+        // Efecto parallax sutil en el hero
+        gsap.to('.hero-aire::before', {
+            y: '20%',
+            ease: "none",
+            scrollTrigger: {
+                trigger: '.hero-aire',
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true
+            }
+        });
+
+        // Inicialización
+        window.addEventListener('load', () => {
+            createAirParticles();
+            
+            // Animación especial del icono principal
+            gsap.fromTo('.aire-icon', 
+                { scale: 0, rotation: -180, opacity: 0 },
+                { 
+                    scale: 1, 
+                    rotation: 0, 
+                    opacity: 1, 
+                    duration: 1.5, 
+                    ease: "back.out(1.7)",
+                    delay: 0.5
+                }
+            );
+        });
+
+        // Responsividad mejorada para dispositivos móviles
+        function updateResponsiveElements() {
+            const isMobile = window.innerWidth <= 768;
+            
+            if (isMobile) {
+                // Reducir partículas en móvil
+                const particles = document.querySelectorAll('.particle');
+                particles.forEach((particle, index) => {
+                    if (index > 25) {
+                        particle.style.display = 'none';
+                    }
+                });
+            }
+        }
+
+        window.addEventListener('resize', updateResponsiveElements);
+        updateResponsiveElements();
+
+        // Accesibilidad mejorada
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                cursor.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('mousemove', () => {
+            cursor.style.display = 'block';
+        });
+    </script>
+
+    <style>
+        /* Estilos adicionales para la sección de contacto */
+        .contact-section {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            background: rgba(74, 144, 226, 0.1);
+            border-radius: 20px;
+            padding: 3rem;
+            border: 1px solid rgba(74, 144, 226, 0.2);
+        }
+
+        .contact-info h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--oro);
+            margin-bottom: 1rem;
+        }
+
+        .contact-info p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .contact-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .contact-method {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(74, 144, 226, 0.1);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-method:hover {
+            background: rgba(74, 144, 226, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .method-icon {
+            font-size: 1.5rem;
+        }
+
+        .method-text {
+            font-size: 1rem;
+            color: var(--aire-accent);
+        }
+
+        /* Timeline de proceso */
+        .process-timeline {
+            max-width: 800px;
+            width: 100%;
+            position: relative;
+        }
+
+        .process-timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--aire-primary), var(--aire-secondary), var(--aire-accent));
+            border-radius: 2px;
+        }
+
+        .process-step {
+            position: relative;
+            margin-bottom: 3rem;
+            padding-left: 4rem;
+        }
+
+        .process-step::before {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            background: var(--aire-primary);
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(74, 144, 226, 0.6);
+        }
+
+        .process-number {
+            position: absolute;
+            left: -8px;
+            top: -5px;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, var(--aire-primary), var(--aire-accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(74, 144, 226, 0.5);
+        }
+
+        .process-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--aire-accent);
+        }
+
+        .process-description {
+            line-height: 1.6;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            .contact-methods {
+                gap: 0.8rem;
+            }
+            
+            .contact-method {
+                flex-direction: column;
+                text-align: center;
+                padding: 1.5rem;
+            }
+
+            .process-step {
+                padding-left: 3rem;
+            }
+        }
+    </style>
+</body>
+</html>
